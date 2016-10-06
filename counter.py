@@ -29,9 +29,25 @@ def update_counter(file_name, reset=False):
 	>>> update_counter('blah2.txt')
 	2
 	"""
-	pass
+	#If file exists, load counter value, increment, print, and save
+	if exists(file_name) and not reset :
+		counterfile = file(file_name, 'rb+')
+		counter = load(counterfile)
+		counter += 1
+		counterfile.seek(0,0)
+		dump(counter,counterfile)
+		counterfile.close()
+		print counter
+	else:
+		counterfile = file(file_name, 'wb+')
+		counter = 1
+		dump(counter,counterfile)
+		counterfile.close()
+		print counter
 
-if __name__ == '__main__':
+       
+		
+if __name__== '__main__':
 	if len(sys.argv) < 2:
 		import doctest
 		doctest.testmod()
