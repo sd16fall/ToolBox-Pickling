@@ -29,10 +29,24 @@ def update_counter(file_name, reset=False):
 	>>> update_counter('blah2.txt')
 	2
 	"""
-	pass
+	if exists(file_name) and reset==False:
+		# open counter file in r+ mode and increment counter
+		f = open(file_name,'r+') # open counter file in reading and writing mode
+		counter = load(f) # load integer counter from file
+		counter += 1 # increment counter
+	else:
+		# create or open the counter file and initialize/reset counter
+		f = open(file_name,'w') # open counter file in writing mode
+		counter = 1 # set counter to 1
+	print counter # just to see what's up
+	f.seek(0,0) # put the file handle back to beginning of file so it can be written over
+	dump(counter,f) # put the new counter in the file
+	f.close() # close it up nicely
+
 
 if __name__ == '__main__':
 	if len(sys.argv) < 2:
+		#update_counter('f',reset=False)
 		import doctest
 		doctest.testmod()
 	else:
