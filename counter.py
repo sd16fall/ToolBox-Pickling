@@ -1,23 +1,25 @@
-""" A program that stores and updates a counter using a Python pickle file"""
+""" 
+Chloe Grubb
+October 2016
+Software Design
+
+ToolBox-Pickling: A program that stores and updates a counter using a Python pickle file
+"""
 
 from os.path import exists
 import sys
-from pickle import dump, load
+from pickle import dumps, dump, load
 
 def update_counter(file_name, reset=False):
 	""" Updates a counter stored in the file 'file_name'
-
 		A new counter will be created and initialized to 1 if none exists or if
 		the reset flag is True.
-
 		If the counter already exists and reset is False, the counter's value will
 		be incremented.
-
 		file_name: the file that stores the counter to be incremented.  If the file
 				   doesn't exist, a counter is created and initialized to 1.
 		reset: True if the counter in the file should be rest.
 		returns: the new counter value
-
 	>>> update_counter('blah.txt',True)
 	1
 	>>> update_counter('blah.txt')
@@ -28,8 +30,21 @@ def update_counter(file_name, reset=False):
 	3
 	>>> update_counter('blah2.txt')
 	2
+	>>> update_counter('blah.txt',True)
+	1
 	"""
-	pass
+	if reset or not exists(file_name):
+		f = open(file_name,"w")
+		dump(1,f)
+		return 1
+	else:
+		f = open(file_name,"r+")
+		counter = load(f)
+		counter += 1
+		f.seek(0,0)
+		dump(counter,f)
+		return counter
+	f.close()
 
 if __name__ == '__main__':
 	if len(sys.argv) < 2:
