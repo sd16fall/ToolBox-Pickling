@@ -5,19 +5,16 @@ import sys
 from pickle import dump, load
 
 def update_counter(file_name, reset=False):
-	""" Updates a counter stored in the file 'file_name'
 
+	""" Updates a counter stored in the file 'file_name'
 		A new counter will be created and initialized to 1 if none exists or if
 		the reset flag is True.
-
 		If the counter already exists and reset is False, the counter's value will
 		be incremented.
-
 		file_name: the file that stores the counter to be incremented.  If the file
 				   doesn't exist, a counter is created and initialized to 1.
 		reset: True if the counter in the file should be rest.
 		returns: the new counter value
-
 	>>> update_counter('blah.txt',True)
 	1
 	>>> update_counter('blah.txt')
@@ -29,7 +26,19 @@ def update_counter(file_name, reset=False):
 	>>> update_counter('blah2.txt')
 	2
 	"""
-	pass
+
+	if exists(file_name) and not reset:
+		f = open(file_name, 'r+')
+		counter = load(f) + 1
+		f.seek(0,0)
+		dump(counter, f)
+	else:
+		f = open(file_name, 'w')
+		f.seek(0,0)
+		counter = 1 # new counter will be created and initialized to 1 if none exists
+		dump(counter,f)
+
+	return counter
 
 if __name__ == '__main__':
 	if len(sys.argv) < 2:
