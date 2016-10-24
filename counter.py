@@ -31,6 +31,19 @@ def update_counter(file_name, reset=False):
 	"""
 	pass
 
+    if exists(file_name) and not reset:
+        f = open(file_name, 'r+')
+        counter = load(f) + 1
+        f.seek(0,0)
+        dump(counter, f)
+    else: 
+        f = open(file_name, 'w')
+        f.seek(0,0)
+        counter = 1 #new counter will be 1 if none exists
+        dump(counter, f)
+        
+    return counter
+
 if __name__ == '__main__':
 	if len(sys.argv) < 2:
 		import doctest
