@@ -1,35 +1,50 @@
 """ A program that stores and updates a counter using a Python pickle file"""
 
 from os.path import exists
+import os
 import sys
+import pickle
 from pickle import dump, load
-
 def update_counter(file_name, reset=False):
-	""" Updates a counter stored in the file 'file_name'
+	if os.path.exists(file_name) == False:
+		counter = open(file_name,"w")
+		line = "1"
+		counter.write(line)
+		counter.close()
+	else:
+		if reset == False:
+			gg = open(file_name,"r")
+			for line in gg:
+				x=line
+			print x
+			gg.close()
+			y=int(x)+1
+			g=open (file_name,"r+")
+			for line in g:
+			    if line != "afds":
+			        g.write(line)
+			g.close()
+			ggg = open(file_name,"w")
+			line = str(y)
+			ggg.write(line)
+			ggg.close()
+		if reset == True:
+			g=open (file_name,"r+")
+			for line in g:
+			    if line != "afds":
+			        g.write(line)
+			g.close()
+			ggg = open(file_name,"w")
+			line = "1"
+			ggg.write(line)
+			ggg.close()
 
-		A new counter will be created and initialized to 1 if none exists or if
-		the reset flag is True.
 
-		If the counter already exists and reset is False, the counter's value will
-		be incremented.
 
-		file_name: the file that stores the counter to be incremented.  If the file
-				   doesn't exist, a counter is created and initialized to 1.
-		reset: True if the counter in the file should be rest.
-		returns: the new counter value
+update_counter("hahya",True)
 
-	>>> update_counter('blah.txt',True)
-	1
-	>>> update_counter('blah.txt')
-	2
-	>>> update_counter('blah2.txt',True)
-	1
-	>>> update_counter('blah.txt')
-	3
-	>>> update_counter('blah2.txt')
-	2
-	"""
-	pass
+
+
 
 if __name__ == '__main__':
 	if len(sys.argv) < 2:
